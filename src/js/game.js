@@ -1,9 +1,11 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, Random, Label, Color, Font, FontUnit , Input, Scene} from "excalibur"
+import * as ex from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { DVD } from './DVD'
+import { npc } from './npc';
+import { Player } from './player'
 
-export class Game extends Engine {
+export class Game extends ex.Engine {
 
     score;
     mylabel;
@@ -11,8 +13,20 @@ export class Game extends Engine {
     constructor() {
         super()
         this.start(ResourceLoader).then(() => this.startGame());
+        this.showDebug(true);
     }
 
+    // onInitialize(engine) {
+    //     const timer = new ex.Timer({
+    //         fcn: () => this.spawnEnemy(),
+    //         repeats: true,
+    //         interval: 3000,
+    //     })
+    //     this.add(timer)
+    //     //engine.currentScene.add(timer);
+    //    timer.start()
+    //}
+    
     startGame() {
         this.score = 0;
         console.log("start de game!");
@@ -22,16 +36,18 @@ export class Game extends Engine {
             this.add(new DVD());
         };
 
-        this.mylabel = new Label({
+        this.mylabel = new ex.Label({
         text: `score: ${this.score}`,
-        pos: new Vector(100, 100),
-        font: new Font({
+        pos: new ex.Vector(100, 100),
+        font: new ex.Font({
             family: 'impact',
             size: 24,
-            unit: FontUnit.Px
+            unit: ex.FontUnit.Px
         })
         });
         this.add(this.mylabel);
+        this.add(new npc);
+        this.add(new Player)
     }
 
     onPostUpdate(engine) {
@@ -39,21 +55,19 @@ export class Game extends Engine {
     }
 
     handleGamepadInput() {
-        
-        // Check for gamepad/joystick input
-        window.addEventListener("gamepadconnected", function(e) {
-        var gamepad = navigator.getGamepads()[e.gamepad.index];
-        
-        // Map gamepad/joystick input to click event
-        var inputBinding = new Input.GamepadButtonBinding(gamepad, Input.Buttons.A);
-        game.addBinding(inputBinding, "click");
-        });
+        //Move crosshair that detects collision with enemy,set bool true if collides
+        // Then in a shoot function kill the other collision object if true
     }
 
     updateScore() {
         this.score++;
         this.mylabel.text = `score: ${this.score}`;
     } 
+
+    spawnEnemy() {
+        this.add(new DVD);
+        console.log('spawned')
+    }
 }
 
 new Game();

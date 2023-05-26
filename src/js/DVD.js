@@ -7,7 +7,7 @@ export class DVD extends Actor {
     }
 
     onInitialize(engine) {  
-        this.anchor = new Vector(0, 0);
+        this.anchor = new Vector(5, -10);
         this.rand = new Random();
         this.graphics.use(Resources.Fish.toSprite());
         this.w = Resources.Fish.width;
@@ -18,7 +18,7 @@ export class DVD extends Actor {
         );
         this.vel = new Vector(Math.random() * 80 - 40, Math.random() * 80 - 40);
         // flip
-        this.scale = new Vector(-1, 1);
+        this.scale = new Vector(Math.random() * 1 + 1, Math.random() * 1 + 1);
         this.anchor = new Vector(1, 0);
         this.enableCapturePointer = true;
         this.pointer.useGraphicsBounds = true;
