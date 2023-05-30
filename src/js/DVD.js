@@ -16,19 +16,23 @@ export class DVD extends Actor {
             this.rand.integer(this.w, engine.drawWidth - this.w),
             this.rand.integer(this.h, engine.drawHeight - this.h)
         );
-        this.vel = new Vector(Math.random() * 80 - 40, Math.random() * 80 - 40);
+        this.vel = new Vector(Math.random() * 120 - 20, Math.random() * 120 - 20);
         // flip
-        this.scale = new Vector(Math.random() * 1 + 1, Math.random() * 1 + 1);
+        this.scale = new Vector(Math.random() * 0.1 + 0.5, Math.random() * 0.2 + 0.5);
         
         this.enableCapturePointer = true;
         this.pointer.useGraphicsBounds = true;
         this.on("pointerup", (event => {
-            console.log(`aaaaa`);
-            this.pos = new Vector(100, 100);
-            engine.updateScore();
-            this.kill();
+            this.die(engine);
         }))
 
+    }
+
+    die (engine) {
+        console.log(`aaaaa`);
+        this.pos = new Vector(100, 100);
+        engine.updateScore();
+        this.kill();
     }
     
     onPostUpdate(engine) {
