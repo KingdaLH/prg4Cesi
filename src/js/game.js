@@ -1,9 +1,9 @@
-import '../css/style.css'
-import * as ex from "excalibur"
-import { Resources, ResourceLoader } from './resources.js'
-import { DVD } from './DVD'
+import '../css/style.css';
+import * as ex from "excalibur";
+import { Resources, ResourceLoader } from './resources.js';
+import { DVD } from './DVD';
 import { npc } from './npc';
-import { Player } from './player'
+import { Player } from './player';
 
 export class Game extends ex.Engine {
 
@@ -11,21 +11,10 @@ export class Game extends ex.Engine {
     mylabel;
     
     constructor() {
-        super()
+        super( )
         this.start(ResourceLoader).then(() => this.startGame());
         this.showDebug(true);
     }
-
-    // onInitialize(engine) {
-    //     const timer = new ex.Timer({
-    //         fcn: () => this.spawnEnemy(),
-    //         repeats: true,
-    //         interval: 3000,
-    //     })
-    //     this.add(timer)
-    //     //engine.currentScene.add(timer);
-    //    timer.start()
-    //}
     
     startGame() {
         this.score = 0;
@@ -47,17 +36,13 @@ export class Game extends ex.Engine {
         });
         this.add(this.mylabel);
         this.add(new npc());
-        this.add(new Player(DVD))
+        this.add(new Player())
     }
 
     onPostUpdate(engine) {
         this.handleGamepadInput;
     }
 
-    handleGamepadInput() {
-        //Move crosshair that detects collision with enemy,set bool true if collides
-        // Then in a shoot function kill the other collision object if true
-    }
 
     updateScore() {
         this.score++;

@@ -1,14 +1,13 @@
 import * as ex from "excalibur";
 import { Resources } from "./resources";
+import { DVD } from './DVD'
 
 export class Player extends ex.Actor {
 
     game
 
-    constructor(DVD) {
+    constructor() {
         super({ width: Resources.Reticle.width, height: Resources.Reticle.height });
-
-        this.DVD = DVD;
         this.colliderId = 15; // Assign a unique ID to the Player's Collider
     }
 
@@ -29,32 +28,23 @@ export class Player extends ex.Actor {
         // Enable gamepad support
         engine.input.gamepads.enabled = true;
 
-        this.on("collisionstart", (event) => this.hitSomething(event))
+        this.on("precollision", (event) => this.shoot(event))
     }
 
-    hitSomething(event) {
-        console.log("Hitting something")
-    
+    shoot(event) {
+
         const kb = this.game.input.keyboard;
         if (kb.isHeld(ex.Input.Keys.Space)) {
             console.log("SHOOT");
-            console.log(event);
-    
-            // Check if the collided object is an instance of the DVD class
-            if (event.other instanceof this.DVD) {
-                const collidedDVD = event.other;
-                collidedDVD.die(this.game); // Call the die() method on the collided DVD instance
-            }
+           // console.log(event);
+           if(event.other.hittingPlayer) {
+            event.other.die()
+           }
+           
         }
     }
-    
-    onPreUpdate(engine) {
-        // const xAxisValue = engine.input.gamepads.at(0).getAxes(ex.Input.Axes.LeftStickX);
-        // const yAxisValue = engine.input.gamepads.at(0).getAxes(ex.Input.Axes.LeftStickY);
 
-        // // Set player velocity based on gamepad input
-        // const speed = 100; // Adjust the speed as needed
-        // this.vel = new ex.Vector(xAxisValue * speed, yAxisValue * speed);
+    onPreUpdate(engine) {
 
         this.keyboardFunctionality(engine);
     }
@@ -79,36 +69,16 @@ export class Player extends ex.Actor {
         }
 
         
-
         this.vel = new ex.Vector(xSpeed, ySpeed)
 
 
-        this.pos.x = ex.clamp(this.pos.x, this.width/2, engine.drawWidth - this.width/2);
-        this.pos.y = ex.clamp(this.pos.y, this.height/3, engine.drawHeight - this.height/2);
+        this.pos.x = clamp(this.pos.x, this.width/2, engine.drawWidth - this.width/2);
+        this.pos.y = clamp(this.pos.y, this.height/3, engine.drawHeight - this.height/2);
     }
 
-    onPostUpdate(engine) {
-        //Apply player velocity to position
-        //this.pos = this.pos.add(this.vel.scale(engine.deltaTime));
-        //this.vel = ex.Vector.Zero.clone(); // Reset velocity after applying
-
-
-        // this.pos.x = ex.clamp(this.pos.x, this.width/2, engine.drawWidth - this.width/2);
-        // this.pos.y = ex.clamp(this.pos.y, this.height/3, engine.drawHeight - this.height/2);
-
-        // // Output the collider ID and position if it's outside the world bounds
-        // if (
-        //     this.pos.x < this.width/2 ||
-        //     this.pos.x > engine.drawWidth - this.width/2 ||
-        //     this.pos.y < this.height/3 ||
-        //     this.pos.y > engine.drawHeight - this.height/2
-        // ) {
-        //     console.warn(`Collider with ID ${this.colliderId} is outside the world bounds.`);
-        // }
-    }
 }
 
-// Clamp function to restrict a value within a range
-// function clamp(value, min, max) {
-//     return Math.max(min, Math.min(value, max));
-// }
+//Clamp function to restrict a value within a range
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(value, max));
+}

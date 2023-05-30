@@ -1,12 +1,20 @@
 import { Actor, Vector, randomInRange, Random } from "excalibur";
 import { Resources } from "./resources";
+import { Player } from './player';
 export class DVD extends Actor {
+
+    hittingPlayer = false;
+
+    game
 
     constructor() {
         super({ width: Resources.Fish.width, height: Resources.Fish.height });
+        
     }
 
     onInitialize(engine) {  
+        
+        this.game = engine;
         this.anchor = new Vector(0.5, 0.5);
         this.rand = new Random();
         this.graphics.use(Resources.Fish.toSprite());
@@ -26,12 +34,32 @@ export class DVD extends Actor {
             this.die(engine);
         }))
 
+        
+        this.on("collisionstart", (event) => this.hitSomething(event));
+        this.on("collisionend", (event) => this.notHitSomething(event));
     }
 
-    die (engine) {
+    hitSomething(event) {
+
+         // Check if the collided object is an instance of the DVD class
+         if (event.other instanceof Player){
+           this.hittingPlayer = true
+         }
+    }
+    
+    notHitSomething(event) {
+
+         // Check if the collided object is an instance of the DVD class
+         if (event.other instanceof Player){
+           this.hittingPlayer = true
+         }
+    }
+
+
+    die () {
         console.log(`aaaaa`);
         this.pos = new Vector(100, 100);
-        engine.updateScore();
+        this.game.updateScore();
         this.kill();
     }
     
