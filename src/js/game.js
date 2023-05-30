@@ -46,8 +46,8 @@ export class Game extends ex.Engine {
         })
         });
         this.add(this.mylabel);
-        this.add(new npc);
-        this.add(new Player)
+        this.add(new npc());
+        this.add(new Player())
     }
 
     onPostUpdate(engine) {
@@ -65,7 +65,7 @@ export class Game extends ex.Engine {
     } 
 
     spawnEnemy() {
-        this.add(new DVD);
+        this.add(new DVD());
         console.log('spawned')
     }
 }
