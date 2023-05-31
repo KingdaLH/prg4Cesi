@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js';
 import { DVD } from './DVD';
 import { npc } from './npc';
 import { Player } from './player';
+import { background } from './background';
 
 export class Game extends ex.Engine {
 
@@ -11,7 +12,14 @@ export class Game extends ex.Engine {
     mylabel;
     
     constructor() {
-        super( )
+        super({
+            // set the viewport dimensions
+            viewport: { width: 1900, height: 920 },
+          
+            // sets the resolution
+            resolution: { width: 1920, height: 1080 },
+            suppressHiDPIScaling: true,
+          })
         this.start(ResourceLoader).then(() => this.startGame());
         this.showDebug(true);
     }
@@ -20,6 +28,8 @@ export class Game extends ex.Engine {
         this.score = 0;
         console.log("start de game!");
         
+        this.add(new background());
+
         //const fish = new DVD();
         for (let i = 0; i < 15; i++) {
             this.add(new DVD());

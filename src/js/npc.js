@@ -11,7 +11,7 @@ export class npc extends ex.Actor{
     onInitialize(engine){
         const { Vector } = ex;
         this.anchor = new ex.Vector(0,0);
-        this.pos = new ex.Vector(100, 100);
+        this.pos = new ex.Vector(100, 800);
         this.scale = new ex.Vector(5, 5);
     }
 
