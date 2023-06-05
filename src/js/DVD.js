@@ -17,8 +17,8 @@ export class DVD extends ex.Actor {
         this.game = engine;
         this.anchor = new ex.Vector(0.5, 0.5);
         this.rand = new ex.Random();
-        this.w = Resources.Fish.width;
-        this.h = Resources.Fish.height;
+        this.w = Resources.Fish.width*0.2;
+        this.h = Resources.Fish.height*0.2;
         this.pos = new ex.Vector(
             this.rand.integer(this.w, engine.drawWidth - this.w),
             this.rand.integer(this.h, engine.drawHeight - this.h)
