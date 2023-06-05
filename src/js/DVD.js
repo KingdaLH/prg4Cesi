@@ -1,20 +1,24 @@
 import * as ex from "excalibur";
 import { Resources } from "./resources";
 import { Player } from './player';
+import { LevelScene } from "./levelScene";
 export class DVD extends ex.Actor {
 
     hittingPlayer = false;
 
-    game
+    levelScene
 
-    constructor() {
-        super({width: Resources.Fish.width*0.2, height: Resources.Fish.height*0.2});
+    constructor(levelScene) {
+        super({
+          width: Resources.Fish.width * 0.2,
+          height: Resources.Fish.height * 0.2
+        });
+        this.levelScene = levelScene;
         this.initGraphics();
     }
 
     onInitialize(engine) {  
-        
-        this.game = engine;
+    
         this.anchor = new ex.Vector(0.5, 0.5);
         this.rand = new ex.Random();
         this.w = Resources.Fish.width*0.2;
@@ -30,7 +34,7 @@ export class DVD extends ex.Actor {
         this.enableCapturePointer = true;
         this.pointer.useGraphicsBounds = true;
         this.on("pointerup", (event => {
-            this.die(engine);
+            this.die();
         }))
 
         
@@ -58,7 +62,7 @@ export class DVD extends ex.Actor {
     die () {
         console.log(`aaaaa`);
         this.pos = new ex.Vector(100, 100);
-        this.game.updateScore();
+        this.levelScene.updateScore();
         this.kill();
     }
     
