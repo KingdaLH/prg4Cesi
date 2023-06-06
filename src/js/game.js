@@ -38,7 +38,7 @@ export class Game extends ex.Engine {
     this.isFlipButtonPressed = false;
 
     this.start(ResourceLoader).then(() => this.startGame());
-    this.showDebug(true);
+    //this.showDebug(true);
 
     // Add the EndGameScene to the engine's scenes
     this.addScene('endgame', new EndGameScene(0, this));
