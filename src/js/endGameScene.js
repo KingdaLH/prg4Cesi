@@ -11,24 +11,24 @@ export class EndGameScene extends ex.Scene {
 
   onInitialize(engine) {
     this.game = engine;
-    const formattedTime = this.elapsedTime ? this.elapsedTime.toFixed(2) : 'N/A';
+    const formattedTime = this.elapsedTime !== undefined ? this.elapsedTime.toFixed(2) : 'N/A';
     const viewportWidth = engine.drawWidth;
     const viewportHeight = engine.drawHeight;
 
-    const label = new ex.Label({
-      text: `Time taken: ${formattedTime} seconds`,
-      pos: new ex.Vector(viewportWidth / 2, viewportHeight / 2),
-      font: new ex.Font({
-        family: 'Arial',
-        size: 40,
-        unit: ex.FontUnit.Px,
-      }),
-      color: ex.Color.White,
-      textAlign: ex.TextAlign.Center,
-    });
+    // const label = new ex.Label({
+    //   text: `Time taken: ${formattedTime} seconds`,
+    //   pos: new ex.Vector(viewportWidth / 2, viewportHeight / 2),
+    //   font: new ex.Font({
+    //     family: 'Arial',
+    //     size: 40,
+    //     unit: ex.FontUnit.Px,
+    //   }),
+    //   color: ex.Color.White,
+    //   textAlign: ex.TextAlign.Center,
+    // });
 
-    const restartButton = new ex.ScreenElement({
-      text: 'Restart',
+    const restartText = new ex.Label({
+      text: 'Please reload the page',
       pos: new ex.Vector(viewportWidth / 2, viewportHeight / 2 + 100),
       font: new ex.Font({
         size: 20,
@@ -38,14 +38,20 @@ export class EndGameScene extends ex.Scene {
       textAlign: ex.TextAlign.Center,
     });
 
-    restartButton.on('pointerup', () => {
-        // Reset the game state
-        this.game.stop();
-        this.game.clearAll();
-        this.game.start();
-      });
+    engine.input.keyboard.on("down", (evt) => {
+      if (evt.key === ex.Input.Keys.Space) {
+        // console.log(this.flipLabel.visible)
+        this.restart();
+      }
+    })
 
-    this.add(label);
-    this.add(restartButton);
+    //this.add(label);
+    this.add(restartText);
   }
+
+  restart() {
+    // Reset the game state
+    window.location.reload;
+  }
+
 }
